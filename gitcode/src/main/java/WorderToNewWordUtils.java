@@ -197,18 +197,17 @@ public class WorderToNewWordUtils {
         String outputUrl = "C:\\Users\\86133\\Desktop\\002.docx";
 
         //获得Excel中的数据
-        String[][] strings = ReadExcel.writeExcel(new File("C:\\Users\\86133\\Desktop\\00.xls"));
+        String[][] strings = ReadExcel.writeExcel(new File("C:\\Users\\86133\\Desktop\\表单处理模板.xls"));
         /*
         待解决：1.求二维数组中元素的总个数 即size
                2.求二维数组中所有元素的和 即weight
                3.日期：自动获取
                4.编号：自加
-               5.目标是一维数组形式 需要刚改二维数组形式获取数据的形式  string[][20]    考虑：可以先获取为一位数组 在转换为二维数组 待证实可行性
+               5.目标是一维数组形式 需要刚改二维数组形式获取数据的形式  string[][25]    考虑：可以先获取为一维数组 在转换为二维数组 待证实可行性  ok
                5.区分大小 考虑可以建多个二维数组 分别存放 大 小 中 （尺寸） 通过比大小区分
                6.如何控制Excel将数据自动降序排列 再获取
                7.数据量不大 所以之接通过比大小筛选出来大小中三个数数据存储的数组即可
                8.还需要考虑个别不够斤数的怎么填写 区间内自动加上几两 凑够数
-
                9.界面 需要有一个可编辑文本框用于输入待转换的表格详细地址
 
                三个文件夹 一个放置模板 一个放置电子秤数据 一个放置生成的打印数据

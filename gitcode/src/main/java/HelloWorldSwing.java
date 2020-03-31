@@ -1,5 +1,7 @@
 import sun.swing.icon.SortArrowIcon;
 
+//如何变成exe 执行文件呢？
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.plaf.metal.MetalComboBoxIcon;
