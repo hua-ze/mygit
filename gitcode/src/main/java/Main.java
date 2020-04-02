@@ -1,126 +1,128 @@
-/*
-https://blog.csdn.net/mouday/article/details/100186537?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task
- */
-//import javafx.application.Application;
-//import javafx.scene.Scene;
-//import javafx.scene.control.Button;
-//import javafx.scene.layout.StackPane;
-//import javafx.stage.Stage;
-//
-//public class Main extends Application {
-//
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
-//
-//    @Override
-//    public void start(Stage primaryStage) throws Exception {
-//        // 实例化按钮
-//        Button button1 = new Button("读表");
-//        Button button2 = new Button("写表");
-//
-//        // 创建布局控件
-//        StackPane stackPane = new StackPane();
-//
-//        // 将button添加到布局
-//        stackPane.getChildren().add(button2);
-//        stackPane.getChildren().add(button1);
-//
-//        // 创建场景 宽=400 高=400
-//        Scene scene = new Scene(stackPane, 400, 400);
-//
-//        // 将场景添加到窗口
-//        primaryStage.setScene(scene);
-//
-//        // 显示窗口
-//        primaryStage.show();
-//    }
-//}
-//
-
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Main extends Application implements EventHandler<MouseEvent> {
-    private Button button;
+import javafx.event.ActionEvent;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+public class Main extends Application {
     public static void main(String[] args) {
-        // write your code here
-//        System.out.println("你好");
         launch(args);
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        // 实例化按钮
-        button = new Button("这是按钮");
+    //@Override
+    public void start1(Stage stage) {
+        Scene scene = new Scene(new Group());
+        stage.setTitle("Label Sample");
+        stage.setWidth(400);
+        stage.setHeight(400);
 
-        // 1、添加按钮点击事件， this.handle 处理事件
-//        button.setOnMouseClicked(this);
+        HBox hbox = new HBox();
 
-//        2、使用单独实现的类 事件监听
-//        button.setOnMouseClicked(new MyMouseEvent());
-
-//        3、使用匿名类添加事件监听
-        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            private MouseEvent event;
-
+        final Label label1 = new Label("Search long long long long long long long long long ");
+        label1.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event) {
-                this.event = event;
-                System.out.println("鼠标点击按钮了");
+            public void handle(MouseEvent e) {
+                label1.setScaleX(1.5);
+                label1.setScaleY(1.5);
             }
         });
 
-//        4、jdk 8  使用简写执行一条输出
-      //  button.setOnMouseClicked(e -> System.out.println("简写的监听事件"));
+        label1.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                label1.setScaleX(1);
+                label1.setScaleY(1);
+            }
+        });
 
-//        5、同时输出多条
-//        button.setOnMouseClicked(e -> {
-//            System.out.println("简写的监听事件1");
-//            System.out.println("简写的监听事件2");
-//        });
+        hbox.setSpacing(10);
+        hbox.getChildren().add((label1));
+        ((Group) scene.getRoot()).getChildren().add(hbox);
 
-        // 创建布局控件
-        StackPane stackPane = new StackPane();
+        stage.setScene(scene);
+        stage.show();
+    }
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("打印报表生成界面");
+        Button btn = new Button();
+        btn.setText("生成打印报表");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                WorderToNewWordUtils worderToNewWordUtils = new WorderToNewWordUtils();
+                //模板文件地址
+                String inputUrl = "C:\\Users\\86133\\Desktop\\001.docx";
+                //新生产的模板文件
+                String outputUrl = "C:\\Users\\86133\\Desktop\\004.docx";
 
-        // 将button添加到布局
-        stackPane.getChildren().add(button);
+                ReadExcel readExcel =  new ReadExcel();
 
-        // 创建场景
-        Scene scene = new Scene(stackPane, 400, 400);
+                //获得Excel中的数据
+                List<String[][]> strings = null;
+                try {
+                    strings = readExcel.writeExcel(new File("C:\\Users\\86133\\Desktop\\表单处理模板.xls"),"1.00","1.20");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        // 给场景添加事件处理的对象
-//        scene.setOnMousePressed(this);
-        scene.setOnMousePressed(new MyMouseEvent());
+                //获取时间
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                Calendar nowTime2 = Calendar.getInstance();
+                String currentTime = df.format(nowTime2.getTime());
 
-        // 将场景添加到窗口
-        primaryStage.setScene(scene);
+                Map<String, String> testMap = new HashMap<String, String>();
+                testMap.put("name", "曲沃县信康鸡蛋");
+                testMap.put("number", "001");
+                testMap.put("boos", "boos");
+                testMap.put("time", currentTime);
+                testMap.put("size", "大蛋");
+                testMap.put("count",(readExcel.indexUp)+" " );
+                testMap.put("weight", readExcel.weight0+" ");
+                testMap.put("size1", "中蛋");
+                testMap.put("count1", (readExcel.indexDown-readExcel.indexUp)+" " );
+                testMap.put("weight1", readExcel.weight1+" ");
+                testMap.put("size2", "小蛋");
+                testMap.put("count2", (readExcel.SumNumber-readExcel.indexDown)+" " );
+                testMap.put("weight2",readExcel.weight2+" ");
 
-        // 显示窗口
+                List<String[]> testList = new ArrayList<String[]>();
+                for(String[] st : strings.get(0)){
+                    testList.add(st);
+                }
+                List<String[]> testList1 = new ArrayList<String[]>();
+                for(String[] st : strings.get(1)){
+                    testList1.add(st);
+                }
+                List<String[]> testList2 = new ArrayList<String[]>();
+                for(String[] st : strings.get(2)){
+                    testList2.add(st);
+                }
+                List<List<String[]>> lists = new ArrayList<>();
+                lists.add(testList);
+                lists.add(testList1);
+                lists.add(testList2);
+
+                // testList.add(new String[]{"50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1","50.1"});
+                worderToNewWordUtils.changWord(inputUrl, outputUrl, testMap, lists);
+            }
+        });
+
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+        primaryStage.setScene(new Scene(root, 500, 250));
         primaryStage.show();
-    }
-
-    @Override
-    public void handle(MouseEvent event) {
-
-        // event.getSource() 获取事件对象
-        if (event.getSource() == button) {
-            System.out.println("点击了按钮");
-        } else {
-            System.out.println("点击了场景");
-        }
-    }
-}
-class MyMouseEvent implements EventHandler<MouseEvent> {
-    @Override
-    public void handle(MouseEvent event) {
-        System.out.println("MyMouseEvent click");
     }
 }
